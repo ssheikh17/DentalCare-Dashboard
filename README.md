@@ -16,7 +16,7 @@ It’s a **responsive dashboard** demonstrating **UI design, layout, and interac
 
 ## ⚙️ How to Run
 1. Clone this repository  
-2. Open `index.html` in a browser
+2. Open `project.html` in a browser
 
 ---
 
