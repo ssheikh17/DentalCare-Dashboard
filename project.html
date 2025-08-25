@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DentalCare Dashboard</title>
+    <style>
+      :root {
+        --bg: #fefefe;
+        --text: #222;
+        --primary: #4caf50;
+        --secondary: #e8f5e9;
+        --card: #ffffff;
+      }
+
+      body.dark {
+        --bg: #121212;
+        --text: #f1f1f1;
+        --primary: #81c784;
+        --secondary: #1b1b1b;
+        --card: #1e1e1e;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background: var(--primary);
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+        margin: 0;
+      }
+
+      #toggle-theme {
+        padding: 0.5rem 1rem;
+        background: white;
+        color: var(--primary);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 800px;
+        margin: auto;
+        flex: 1;
+      }
+
+      .banner {
+        width: 100%;
+        max-height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .about {
+        background: var(--secondary);
+        padding: 1rem;
+        margin-bottom: 2rem;
+        border-left: 5px solid var(--primary);
+        border-radius: 8px;
+      }
+
+      section {
+        margin-bottom: 2rem;
+      }
+
+      input,
+      button {
+        margin: 0.5rem 0;
+        padding: 0.6rem;
+        width: 100%;
+        max-width: 400px;
+        display: block;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        transition: background 0.3s;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #388e3c;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        background: var(--card);
+        margin: 0.5rem 0;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        margin-top: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      footer {
+        text-align: center;
+        padding: 1rem;
+        background: var(--card);
+        font-size: 0.9rem;
+        color: var(--text);
+        border-top: 1px solid #ccc;
+      }
+
+      .gdpr-banner {
+        background: #f4f4f4;
+        color: #111;
+        font-size: 0.9rem;
+        padding: 1rem;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: none;
+      }
+
+      .gdpr-banner.show {
+        display: block;
+      }
+
+      .gdpr-banner button {
+        margin-left: 1rem;
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 0.4rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>DentalCare Dashboard</h1>
+      <button id="toggle-theme">Dark Mode</button>
+    </header>
+
+    <main>
+      <figure style="margin-bottom: 2rem">
+        <img
+          class="banner"
+          src="https://s3.amazonaws.com/shecodesio-production/uploads/files/000/169/042/original/teeth.jpeg?1750861833"
+          alt="Dental Teeth Banner"
+        />
+        <figcaption
+          style="
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-top: 0.5rem;
+          "
+        >
+          Sample panoramic dental image — no real patient data used.
+        </figcaption>
+      </figure>
+
+      <div class="about">
+        <h2>About this App</h2>
+        <p>
+          This tool helps dental treatment coordinators log patient appointments
+          and treatment plans during a session. Built with HTML, CSS, and
+          JavaScript — no data is saved to respect privacy and GDPR compliance.
+        </p>
+      </div>
+
+      <section id="patient-form">
+        <h2>Add New Patient</h2>
+        <form id="form">
+          <input type="text" id="name" placeholder="Full Name" required />
+          <input
+            type="text"
+            id="treatment"
+            placeholder="Treatment Plan"
+            required
+          />
+          <input type="date" id="appointment" required />
+          <button type="submit">Add Patient</button>
+        </form>
+      </section>
+
+      <section id="patient-list">
+        <h2>Patient Records (This session only)</h2>
+        <ul id="records"></ul>
+      </section>
+    </main>
+
+    <footer>🦷 Coded by Safa Sheikh — For demo purposes only.</footer>
+
+    <div class="gdpr-banner" id="gdpr">
+      We use this tool for demo only. No data is stored. By continuing, you
+      accept our non-cookie-based GDPR demo banner.
+      <button onclick="document.getElementById('gdpr').style.display='none'">
+        OK
+      </button>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const records = document.getElementById("records");
+      const themeToggle = document.getElementById("toggle-theme");
+      const gdpr = document.getElementById("gdpr");
+
+      // Show fake GDPR banner after load
+      window.addEventListener("load", () => {
+        setTimeout(() => gdpr.classList.add("show"), 1000);
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const treatment = document.getElementById("treatment").value;
+        const appointment = document.getElementById("appointment").value;
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+        <strong>${name}</strong><br/>
+        Treatment: ${treatment}<br/>
+        Appointment: ${appointment}<br/>
+        <button class="delete-btn">Delete</button>
+      `;
+
+        li.querySelector(".delete-btn").addEventListener("click", () =>
+          li.remove()
+        );
+
+        records.appendChild(li);
+        form.reset();
+      });
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+      });
+    </script>
+  </body>
+</html>
